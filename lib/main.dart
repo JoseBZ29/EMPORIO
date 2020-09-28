@@ -1,6 +1,6 @@
-import 'package:emporio/src/pages/home.dart';
-import 'package:emporio/src/widgets/sideBar.dart';
 import 'package:flutter/material.dart';
+import 'package:emporio/screens/home/home_screen.dart';
+import 'package:emporio/screens/login/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,12 +9,16 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Map<String, WidgetBuilder> routes = {
+      '/': (BuildContext context) => Login(),
+      '/home': (BuildContext context) => HomeScreen(),
+    };
     return MaterialApp(
+      initialRoute: '/',
+      routes: routes,
+      theme: ThemeData(fontFamily: 'HelveticaNeue'),
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Home(),
     );
   }
 }
