@@ -47,27 +47,56 @@ class _CategoriasPageState extends State<CategoriasPage> {
   }
 
   Widget cat(Categoria cat, int index, BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(padding: EdgeInsets.only(right: 30), child: Text(cat.nombre)),
-        Container(
-            padding: EdgeInsets.only(right: 30), child: Text(cat.descripcion)),
-        Image.network('https://airintelligencems.com/' + cat.imagen),
-        FlatButton(
-            onPressed: () {
-              setState(() {
-                globals.cat = cat;
-              });
-              print(globals.cat.id);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditarCategoria()),
-              );
-            },
-            child: Icon(Icons.edit))
-      ],
-    );
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 50),
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height / 4,
+              width: MediaQuery.of(context).size.width / 2.3,
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(cat.nombre)),
+                  ),
+                  Expanded(
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                          cat.descripcion,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 150,
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child:
+                  Image.network('https://airintelligencems.com/' + cat.imagen),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(horizontal: 50),
+                child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        globals.cat = cat;
+                      });
+                      print(globals.cat.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditarCategoria()),
+                      );
+                    },
+                    child: Icon(Icons.edit, color: Colors.blue)))
+          ],
+        ));
   }
 
   String name = '';
@@ -125,29 +154,67 @@ class _CategoriasPageState extends State<CategoriasPage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RefreshIndicator(
-          onRefresh: () async {
-            getCategoria();
-          },
-          child: listArt.length < 1
-              ? CircularProgressIndicator()
-              : ListView.builder(
-                  itemCount: listArt.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return cat(listArt[index], index, context);
-                  },
-                ),
-          // FlatButton(
-          //   child: Icon(Icons.open_in_browser),
-          //   onPressed: () {
-          //     pickImage();
-          //   },
-          // ),
-          // error != null
-          //     ? Text(error)
-          //     : data != null ? Image.memory(data) : Text('No data...'),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 60),
+        padding: EdgeInsets.only(top: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                margin: EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    border: Border(
+                  bottom: BorderSide(width: 1.0, color: Colors.grey),
+                )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text("Nombre"),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text("Descripción"),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text("Imaguen"),
+                    ),
+                    Container(
+                      child: Text(""),
+                    ),
+                  ],
+                )),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  getCategoria();
+                },
+                child: listArt.length < 1
+                    ? CircularProgressIndicator()
+                    : ListView.builder(
+                        itemCount: listArt.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return cat(listArt[index], index, context);
+                        },
+                      ),
+                // FlatButton(
+                //   child: Icon(Icons.open_in_browser),
+                //   onPressed: () {
+                //     pickImage();
+                //   },
+                // ),
+                // error != null
+                //     ? Text(error)
+                //     : data != null ? Image.memory(data) : Text('No data...'),
+              ),
+            ))
+          ],
         ),
       ),
     );
