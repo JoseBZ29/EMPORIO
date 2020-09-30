@@ -1,5 +1,6 @@
 import 'package:emporio/screens/graphic/graphic2.dart';
 import 'package:emporio/screens/graphic/graphic3.dart';
+import 'package:emporio/screens/graphic/graphic4.dart';
 import 'package:flutter/material.dart';
 import 'package:emporio/screens/graphic/graphic.dart';
 import 'package:emporio/screens/dashboard/dashboard.dart';
@@ -20,7 +21,7 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: 7, initialIndex: 0)
+    tabController = new TabController(vsync: this, length: 8, initialIndex: 0)
       ..addListener(() {
         setState(() {
           active = tabController.index;
@@ -138,6 +139,7 @@ class HomeScreenState extends State<HomeScreen>
                 PointPolygonSchemaPage(),
                 LineAreaPage(),
                 IntervalPage(),
+                CustomShapePage()
               ],
             ),
           )
@@ -332,6 +334,33 @@ class HomeScreenState extends State<HomeScreen>
                 ),
                 Text(
                   "Graphic 3",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'HelveticaNeue',
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ),
+        FlatButton(
+          color: tabController.index == 7 ? Colors.grey[100] : Colors.white,
+          onPressed: () {
+            print(tabController.index);
+            tabController.animateTo(7);
+            drawerStatus ? Navigator.pop(context) : print("");
+          },
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
+              child: Row(children: [
+                Icon(Icons.exit_to_app),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Graphic 4",
                   style: TextStyle(
                     fontSize: 18,
                     fontFamily: 'HelveticaNeue',

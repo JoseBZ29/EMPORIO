@@ -10,10 +10,6 @@ class PointPolygonSchemaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('Point/Polygon/Schema Charts'),
-      ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
