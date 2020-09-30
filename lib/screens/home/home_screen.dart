@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:emporio/screens/graphic/graphic2.dart';
-import 'package:emporio/screens/graphic/graphic3.dart';
-import 'package:emporio/screens/graphic/graphic4.dart';
 import 'package:emporio/screens/graphic/graphic.dart';
+import 'package:flutter/material.dart';
 import 'package:emporio/screens/dashboard/dashboard.dart';
 import 'package:emporio/screens/forms/form.dart';
 import 'package:emporio/screens/categories/categories.dart';
@@ -21,7 +18,7 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: 8, initialIndex: 0)
+    tabController = new TabController(vsync: this, length: 5, initialIndex: 0)
       ..addListener(() {
         setState(() {
           active = tabController.index;
@@ -134,12 +131,9 @@ class HomeScreenState extends State<HomeScreen>
               children: [
                 Dashboard(),
                 Categories(),
+                Graphics(),
                 FormMaterial(),
                 HeroAnimation(),
-                PointPolygonSchemaPage(),
-                LineAreaPage(),
-                IntervalPage(),
-                CustomShapePage()
               ],
             ),
           )
@@ -194,7 +188,7 @@ class HomeScreenState extends State<HomeScreen>
             child: Container(
               padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
               child: Row(children: [
-                Icon(Icons.exit_to_app),
+                Icon(Icons.list),
                 SizedBox(
                   width: 8,
                 ),
@@ -221,6 +215,33 @@ class HomeScreenState extends State<HomeScreen>
             child: Container(
               padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
               child: Row(children: [
+                Icon(Icons.linear_scale),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Graphics",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'HelveticaNeue',
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ),
+        FlatButton(
+          color: tabController.index == 3 ? Colors.grey[100] : Colors.white,
+          onPressed: () {
+            print(tabController.index);
+            tabController.animateTo(3);
+            drawerStatus ? Navigator.pop(context) : print("");
+          },
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
+              child: Row(children: [
                 Icon(Icons.exit_to_app),
                 SizedBox(
                   width: 8,
@@ -237,9 +258,9 @@ class HomeScreenState extends State<HomeScreen>
           ),
         ),
         FlatButton(
-          color: tabController.index == 3 ? Colors.grey[100] : Colors.white,
+          color: tabController.index == 4 ? Colors.grey[100] : Colors.white,
           onPressed: () {
-            tabController.animateTo(3);
+            tabController.animateTo(4);
             drawerStatus ? Navigator.pop(context) : print("");
           },
           child: Align(
@@ -253,114 +274,6 @@ class HomeScreenState extends State<HomeScreen>
                 ),
                 Text(
                   "Hero",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'HelveticaNeue',
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ),
-        FlatButton(
-          color: tabController.index == 4 ? Colors.grey[100] : Colors.white,
-          onPressed: () {
-            print(tabController.index);
-            tabController.animateTo(4);
-            drawerStatus ? Navigator.pop(context) : print("");
-          },
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
-              child: Row(children: [
-                Icon(Icons.exit_to_app),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Graphic 1",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'HelveticaNeue',
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ),
-        FlatButton(
-          color: tabController.index == 5 ? Colors.grey[100] : Colors.white,
-          onPressed: () {
-            print(tabController.index);
-            tabController.animateTo(5);
-            drawerStatus ? Navigator.pop(context) : print("");
-          },
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
-              child: Row(children: [
-                Icon(Icons.exit_to_app),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Graphic 2",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'HelveticaNeue',
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ),
-        FlatButton(
-          color: tabController.index == 6 ? Colors.grey[100] : Colors.white,
-          onPressed: () {
-            print(tabController.index);
-            tabController.animateTo(6);
-            drawerStatus ? Navigator.pop(context) : print("");
-          },
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
-              child: Row(children: [
-                Icon(Icons.exit_to_app),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Graphic 3",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'HelveticaNeue',
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ),
-        FlatButton(
-          color: tabController.index == 7 ? Colors.grey[100] : Colors.white,
-          onPressed: () {
-            print(tabController.index);
-            tabController.animateTo(7);
-            drawerStatus ? Navigator.pop(context) : print("");
-          },
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.only(top: 22, bottom: 22, right: 22),
-              child: Row(children: [
-                Icon(Icons.exit_to_app),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Graphic 4",
                   style: TextStyle(
                     fontSize: 18,
                     fontFamily: 'HelveticaNeue',

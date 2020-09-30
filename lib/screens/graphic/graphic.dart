@@ -3,7 +3,7 @@ import 'package:graphic/graphic.dart' as graphic;
 
 import 'data.dart';
 
-class PointPolygonSchemaPage extends StatelessWidget {
+class Graphics extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -15,7 +15,7 @@ class PointPolygonSchemaPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Padding(
-                child: Text('Various Shapes Scatter',
+                child: Text('Smooth Line and Area',
                     style: TextStyle(fontSize: 20)),
                 padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
               ),
@@ -23,225 +23,43 @@ class PointPolygonSchemaPage extends StatelessWidget {
                 width: 350,
                 height: 300,
                 child: graphic.Chart(
-                  data: scatterData,
+                  data: lineData,
                   scales: {
-                    '0': graphic.NumScale(
-                      accessor: (list) => list[0] as num,
-                      range: [0.1, 0.9],
+                    'Date': graphic.CatScale(
+                      accessor: (map) => map['Date'] as String,
+                      range: [0, 1],
+                      tickCount: 5,
+                    ),
+                    'Close': graphic.NumScale(
+                      accessor: (map) => map['Close'] as num,
                       nice: true,
-                    ),
-                    '1': graphic.NumScale(
-                      accessor: (list) => list[1] as num,
-                      range: [0.1, 0.9],
-                      nice: true,
-                      min: 55,
-                    ),
-                    '2': graphic.NumScale(
-                      accessor: (list) => list[2] as num,
-                    ),
-                    '4': graphic.CatScale(
-                      accessor: (list) => list[4].toString(),
-                    ),
+                      min: 100,
+                    )
                   },
                   geoms: [
-                    graphic.PointGeom(
-                      position: graphic.PositionAttr(field: '0*1'),
-                      size: graphic.SizeAttr(field: '2', values: [5, 20]),
-                      color: graphic.ColorAttr(field: '4'),
+                    graphic.AreaGeom(
+                      position: graphic.PositionAttr(field: 'Date*Close'),
                       shape: graphic.ShapeAttr(
-                          field: '4',
-                          values: [
-                            graphic.Shapes.hollowCirclePoint,
-                            graphic.Shapes.hollowRectPoint,
-                          ],
-                          isTween: true),
-                    )
+                          values: [graphic.Shapes.smoothArea]),
+                      color: graphic.ColorAttr(values: [
+                        graphic.Defaults.theme.colors.first.withAlpha(80),
+                      ]),
+                    ),
+                    graphic.LineGeom(
+                      position: graphic.PositionAttr(field: 'Date*Close'),
+                      shape: graphic.ShapeAttr(
+                          values: [graphic.Shapes.smoothLine]),
+                      size: graphic.SizeAttr(values: [0.5]),
+                    ),
                   ],
                   axes: {
-                    '0': graphic.Defaults.horizontalAxis,
-                    '1': graphic.Defaults.verticalAxis,
+                    'Date': graphic.Defaults.horizontalAxis,
+                    'Close': graphic.Defaults.verticalAxis,
                   },
                 ),
               ),
               Padding(
-                child:
-                    Text('Polar Coord Point', style: TextStyle(fontSize: 20)),
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-              ),
-              Container(
-                width: 350,
-                height: 300,
-                child: graphic.Chart(
-                  data: scatterData,
-                  scales: {
-                    '0': graphic.NumScale(
-                      accessor: (list) => list[0] as num,
-                      nice: true,
-                    ),
-                    '1': graphic.NumScale(
-                      accessor: (list) => list[1] as num,
-                      nice: true,
-                      min: 55,
-                    ),
-                    '2': graphic.NumScale(
-                      accessor: (list) => list[2] as num,
-                    ),
-                    '4': graphic.CatScale(
-                      accessor: (list) => list[4].toString(),
-                    ),
-                  },
-                  coord: graphic.PolarCoord(),
-                  geoms: [
-                    graphic.PointGeom(
-                      position: graphic.PositionAttr(field: '0*1'),
-                      size: graphic.SizeAttr(values: [2]),
-                      color: graphic.ColorAttr(field: '4'),
-                    )
-                  ],
-                  axes: {
-                    '0': graphic.Defaults.circularAxis,
-                    '1': graphic.Defaults.radialAxis..label = null,
-                  },
-                ),
-              ),
-              Padding(
-                child: Text('Heatmap', style: TextStyle(fontSize: 20)),
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-              ),
-              Container(
-                width: 350,
-                height: 300,
-                child: graphic.Chart(
-                  data: heatmapData,
-                  scales: {
-                    'name': graphic.CatScale(
-                      accessor: (list) => list[0].toString(),
-                    ),
-                    'day': graphic.CatScale(
-                      accessor: (list) => list[1].toString(),
-                    ),
-                    'sales': graphic.NumScale(
-                      accessor: (list) => list[2] as num,
-                    )
-                  },
-                  geoms: [
-                    graphic.PolygonGeom(
-                      position: graphic.PositionAttr(field: 'name*day'),
-                      color: graphic.ColorAttr(
-                        field: 'sales',
-                        values: [
-                          Color(0xffbae7ff),
-                          Color(0xff1890ff),
-                          Color(0xff0050b3)
-                        ],
-                        isTween: true,
-                      ),
-                    )
-                  ],
-                  axes: {
-                    'name': graphic.Defaults.horizontalAxis,
-                    'day': graphic.Defaults.verticalAxis,
-                  },
-                ),
-              ),
-              Padding(
-                child:
-                    Text('Polar Coord Heatmap', style: TextStyle(fontSize: 20)),
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-              ),
-              Container(
-                width: 350,
-                height: 300,
-                child: graphic.Chart(
-                  data: heatmapData,
-                  scales: {
-                    'name': graphic.CatScale(
-                      accessor: (list) => list[0].toString(),
-                    ),
-                    'day': graphic.CatScale(
-                      accessor: (list) => list[1].toString(),
-                    ),
-                    'sales': graphic.NumScale(
-                      accessor: (list) => list[2] as num,
-                    )
-                  },
-                  coord: graphic.PolarCoord(),
-                  geoms: [
-                    graphic.PolygonGeom(
-                      position: graphic.PositionAttr(field: 'name*day'),
-                      color: graphic.ColorAttr(
-                        field: 'sales',
-                        values: [
-                          Color(0xffbae7ff),
-                          Color(0xff1890ff),
-                          Color(0xff0050b3)
-                        ],
-                        isTween: true,
-                      ),
-                    )
-                  ],
-                  axes: {
-                    'name': graphic.Defaults.circularAxis
-                      ..line = null
-                      ..grid = null,
-                  },
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.zero,
-                ),
-              ),
-              Padding(
-                child: Text('Box Schema', style: TextStyle(fontSize: 20)),
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-              ),
-              Container(
-                width: 350,
-                height: 300,
-                child: graphic.Chart(
-                  data: boxData,
-                  scales: {
-                    'x': graphic.CatScale(
-                      accessor: (map) => map['x'] as String,
-                    ),
-                    'low': graphic.NumScale(
-                      accessor: (map) => map['low'] as num,
-                      max: 35,
-                    ),
-                    'q1': graphic.NumScale(
-                      accessor: (map) => map['q1'] as num,
-                      max: 35,
-                    ),
-                    'median': graphic.NumScale(
-                      accessor: (map) => map['median'] as num,
-                      max: 35,
-                    ),
-                    'q3': graphic.NumScale(
-                      accessor: (map) => map['q3'] as num,
-                      max: 35,
-                    ),
-                    'high': graphic.NumScale(
-                      accessor: (map) => map['high'] as num,
-                      max: 35,
-                    ),
-                  },
-                  geoms: [
-                    graphic.SchemaGeom(
-                      position: graphic.PositionAttr(
-                          field: 'x*low*q1*median*q3*high'),
-                      shape:
-                          graphic.ShapeAttr(values: [graphic.Shapes.boxSchema]),
-                    )
-                  ],
-                  axes: {
-                    'x': graphic.Defaults.horizontalAxis
-                      ..label.rotation = 0.9
-                      ..label.offset = Offset(0, 25),
-                    'low': graphic.Defaults.verticalAxis,
-                  },
-                  padding: EdgeInsets.fromLTRB(40, 5, 10, 60),
-                ),
-              ),
-              Padding(
-                child: Text('Box Schema Transposed',
+                child: Text('Polar Coord Area Stack',
                     style: TextStyle(fontSize: 20)),
                 padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
               ),
@@ -249,52 +67,236 @@ class PointPolygonSchemaPage extends StatelessWidget {
                 width: 350,
                 height: 300,
                 child: graphic.Chart(
-                  data: boxData,
+                  data: adjustData,
                   scales: {
-                    'x': graphic.CatScale(
-                      accessor: (map) => map['x'] as String,
+                    'index': graphic.CatScale(
+                      accessor: (map) => map['index'].toString(),
                     ),
-                    'low': graphic.NumScale(
-                      accessor: (map) => map['low'] as num,
-                      max: 35,
+                    'type': graphic.CatScale(
+                      accessor: (map) => map['type'] as String,
                     ),
-                    'q1': graphic.NumScale(
-                      accessor: (map) => map['q1'] as num,
-                      max: 35,
-                    ),
-                    'median': graphic.NumScale(
-                      accessor: (map) => map['median'] as num,
-                      max: 35,
-                    ),
-                    'q3': graphic.NumScale(
-                      accessor: (map) => map['q3'] as num,
-                      max: 35,
-                    ),
-                    'high': graphic.NumScale(
-                      accessor: (map) => map['high'] as num,
-                      max: 35,
+                    'value': graphic.NumScale(
+                      accessor: (map) => map['value'] as num,
+                      nice: true,
+                      max: 1800,
                     ),
                   },
-                  coord: graphic.CartesianCoord(transposed: true),
+                  coord: graphic.PolarCoord(),
                   geoms: [
-                    graphic.SchemaGeom(
-                      position: graphic.PositionAttr(
-                          field: 'x*low*q1*median*q3*high'),
-                      shape:
-                          graphic.ShapeAttr(values: [graphic.Shapes.boxSchema]),
+                    graphic.AreaGeom(
+                      position: graphic.PositionAttr(field: 'index*value'),
+                      color: graphic.ColorAttr(field: 'type'),
+                      adjust: graphic.StackAdjust(),
                     )
                   ],
                   axes: {
-                    'x': graphic.Defaults.verticalAxis
-                      ..grid = null
-                      ..line = graphic.AxisLine(
-                          style: graphic.LineStyle(color: Color(0xffe8e8e8))),
-                    'low': graphic.Defaults.horizontalAxis
-                      ..line = null
-                      ..grid = graphic.AxisGrid(
-                          style: graphic.LineStyle(color: Color(0xffe8e8e8))),
+                    'index': graphic.Defaults.circularAxis,
+                    'value': graphic.Defaults.radialAxis..label = null,
                   },
-                  padding: EdgeInsets.fromLTRB(80, 5, 5, 40),
+                ),
+              ),
+              Padding(
+                child: Text('Radius Rect', style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 850,
+                height: 500,
+                child: graphic.Chart(
+                  data: basicData,
+                  scales: {
+                    'genre': graphic.CatScale(
+                      accessor: (map) => map['genre'] as String,
+                    ),
+                    'sold': graphic.NumScale(
+                      accessor: (map) => map['sold'] as num,
+                      nice: true,
+                    )
+                  },
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'genre*sold'),
+                      shape: graphic.ShapeAttr(values: [
+                        graphic.Shapes.rrectInterval(radius: Radius.circular(5))
+                      ]),
+                    )
+                  ],
+                  axes: {
+                    'genre': graphic.Defaults.horizontalAxis,
+                    'sold': graphic.Defaults.verticalAxis,
+                  },
+                ),
+              ),
+              Padding(
+                child: Text('Dodge Adjust', style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 350,
+                height: 300,
+                child: graphic.Chart(
+                  data: adjustData,
+                  scales: {
+                    'index': graphic.CatScale(
+                      accessor: (map) => map['index'].toString(),
+                    ),
+                    'type': graphic.CatScale(
+                      accessor: (map) => map['type'] as String,
+                    ),
+                    'value': graphic.NumScale(
+                      accessor: (map) => map['value'] as num,
+                      nice: true,
+                    ),
+                  },
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'index*value'),
+                      color: graphic.ColorAttr(field: 'type'),
+                      adjust: graphic.DodgeAdjust(),
+                      size: graphic.SizeAttr(values: [4]),
+                    )
+                  ],
+                  axes: {
+                    'index': graphic.Defaults.horizontalAxis,
+                    'value': graphic.Defaults.verticalAxis,
+                  },
+                ),
+              ),
+              Padding(
+                child: Text('Stack Adjust', style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 350,
+                height: 300,
+                child: graphic.Chart(
+                  data: adjustData,
+                  scales: {
+                    'index': graphic.CatScale(
+                      accessor: (map) => map['index'].toString(),
+                    ),
+                    'type': graphic.CatScale(
+                      accessor: (map) => map['type'] as String,
+                    ),
+                    'value': graphic.NumScale(
+                      accessor: (map) => map['value'] as num,
+                      max: 2000,
+                    ),
+                  },
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'index*value'),
+                      color: graphic.ColorAttr(field: 'type'),
+                      adjust: graphic.StackAdjust(),
+                    )
+                  ],
+                  axes: {
+                    'index': graphic.Defaults.horizontalAxis,
+                    'value': graphic.Defaults.verticalAxis,
+                  },
+                ),
+              ),
+              Padding(
+                child: Text('Polar Coord', style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 350,
+                height: 300,
+                child: graphic.Chart(
+                  data: basicData,
+                  scales: {
+                    'genre': graphic.CatScale(
+                      accessor: (map) => map['genre'] as String,
+                    ),
+                    'sold': graphic.NumScale(
+                      accessor: (map) => map['sold'] as num,
+                      nice: true,
+                    )
+                  },
+                  coord: graphic.PolarCoord(),
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'genre*sold'),
+                      color: graphic.ColorAttr(field: 'genre'),
+                    )
+                  ],
+                  axes: {
+                    'genre': graphic.Defaults.circularAxis,
+                    'sold': graphic.Defaults.radialAxis..label = null,
+                  },
+                ),
+              ),
+              Padding(
+                child: Text('Polar Coord Transposed',
+                    style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 350,
+                height: 300,
+                child: graphic.Chart(
+                  data: basicData,
+                  scales: {
+                    'genre': graphic.CatScale(
+                      accessor: (map) => map['genre'] as String,
+                    ),
+                    'sold': graphic.NumScale(
+                      accessor: (map) => map['sold'] as num,
+                      nice: true,
+                    )
+                  },
+                  coord: graphic.PolarCoord(transposed: true, innerRadius: 0.5),
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'genre*sold'),
+                      color: graphic.ColorAttr(field: 'genre'),
+                    )
+                  ],
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.all(20),
+                ),
+              ),
+              Padding(
+                child:
+                    Text('Polar Coord Stack', style: TextStyle(fontSize: 20)),
+                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              ),
+              Container(
+                width: 350,
+                height: 300,
+                child: graphic.Chart(
+                  data: adjustData,
+                  scales: {
+                    'index': graphic.CatScale(
+                      accessor: (map) => map['index'].toString(),
+                    ),
+                    'type': graphic.CatScale(
+                      accessor: (map) => map['type'] as String,
+                    ),
+                    'value': graphic.NumScale(
+                      accessor: (map) => map['value'] as num,
+                      max: 1800,
+                      tickCount: 5,
+                    ),
+                  },
+                  coord: graphic.PolarCoord(),
+                  geoms: [
+                    graphic.IntervalGeom(
+                      position: graphic.PositionAttr(field: 'index*value'),
+                      color: graphic.ColorAttr(field: 'type'),
+                      adjust: graphic.StackAdjust(),
+                    )
+                  ],
+                  axes: {
+                    'index': graphic.Defaults.circularAxis..top = true,
+                    'value': graphic.Defaults.radialAxis
+                      ..grid = null
+                      ..top = true
+                      ..label.style =
+                          TextStyle(color: Colors.white, fontSize: 10)
+                      ..label.offset = Offset(-4, 0),
+                  },
                 ),
               ),
             ],
