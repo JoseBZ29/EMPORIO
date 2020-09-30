@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:emporio/screens/graphic/graphic2.dart';
 import 'package:emporio/screens/graphic/graphic3.dart';
 import 'package:emporio/screens/graphic/graphic4.dart';
-import 'package:flutter/material.dart';
 import 'package:emporio/screens/graphic/graphic.dart';
 import 'package:emporio/screens/dashboard/dashboard.dart';
 import 'package:emporio/screens/forms/form.dart';
