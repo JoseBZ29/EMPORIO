@@ -1,4 +1,5 @@
 import 'package:emporio/models/categoria.dart';
+import 'package:emporio/screens/dashboard/edit.dart';
 import 'package:flutter/material.dart';
 import 'package:emporio/models/github_model.dart';
 import 'package:emporio/services/api_service.dart';
@@ -197,7 +198,13 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           Container(
                               child: FlatButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Edit()),
+                                    );
+                                  },
                                   icon: Icon(Icons.edit),
                                   label: Text('Editar')))
                         ]);
