@@ -78,15 +78,41 @@ class _EditState extends State<Edit> {
   @override
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size.height);
-    return Material(
-        child: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: formEdit(),
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-        ],
-      ),
-    ));
+          automaticallyImplyLeading:
+              MediaQuery.of(context).size.width < 1300 ? true : false,
+          title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 32),
+                  child: Text(
+                    "Edit",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'HelveticaNeue',
+                    ),
+                  ),
+                ),
+              ]),
+          backgroundColor: ColorConstants.blue,
+          // automaticallyImplyLeading: false,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: formEdit(),
+              ),
+            ],
+          ),
+        ));
   }
 }
