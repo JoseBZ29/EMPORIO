@@ -8,7 +8,7 @@ class Edit extends StatefulWidget {
 
 class _EditState extends State<Edit> {
   final _formKey = GlobalKey<FormState>();
-
+  int _value = 1;
   Widget formEdit() {
     return Card(
         elevation: 2.0,
@@ -48,6 +48,60 @@ class _EditState extends State<Edit> {
                       return null;
                     },
                   ),
+                  Divider(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Cantidad',
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  Divider(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Precio',
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  Divider(
+                    height: 30,
+                  ),
+                  DropdownButton(
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text("First Item"),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Second Item"),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(child: Text("Third Item"), value: 3),
+                        DropdownMenuItem(child: Text("Fourth Item"), value: 4)
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value;
+                        });
+                      }),
                   Divider(
                     height: 10,
                   ),
